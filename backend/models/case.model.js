@@ -23,11 +23,11 @@ const caseSchema=new mongoose.Schema({
     lawyerId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User",
-        required:true
+        // required:true
     },
     judgeName:{
         type:String,
-        required:true
+        // required:true
     },
     createdBy:{
         type:mongoose.Schema.Types.ObjectId,

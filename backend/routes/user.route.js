@@ -2,6 +2,7 @@ import User from "../models/user.model.js"
 import express from "express"
 import jwt from "jsonwebtoken"
 import { protect } from "../middlewares/auth.middleware.js"
+import {authorize} from "../middlewares/authorize.middleware.js"
 import bcrypt from "bcryptjs"
 const route=express.Router()
 
@@ -66,4 +67,122 @@ route.post("/login",async function(req,res){
 route.get("/check",protect,(req,res)=>{
     return res.json({role:req.user.role})
 })
+
+route.post("/logout", (req, res) => {
+    try {
+        // Replace "token" with whatever name you gave your cookie when logging in
+        res.cookie("jwt", "");
+
+        res.status(200).json({ message: "Logged out successfully" });
+    } catch (error) {
+        console.log("Error during logout", error);
+        res.status(500).json({ message: "Logout failed" });
+    }
+});
+
+// --- USER MANAGEMENT ROUTES (For Frontend Views) ---
+
+// 1. Get ALL Lawyers (For dropdowns and Clerk's 'All Lawyers' view)
+route.get("/lawyers", protect, authorize("admin", "clerk"), async (req, res) => {
+    try {
+        const lawyers = await User.find({ role: "lawyer" }).select("-password");
+        res.status(200).json(lawyers);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch lawyers", error: error.message });
+    }
+});
+
+// 2. Get ALL Users (For Admin's 'All Users' view)
+route.get("/", protect, authorize("admin"), async (req, res) => {
+    try {
+        const users = await User.find().select("-password");
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch users", error: error.message });
+    }
+});
+
+// 3. Explicit Add Lawyer Route (For Admin/Clerk)
+// route.post("/addLawyer", protect, authorize("admin", "clerk"), async (req, res) => {
+//     try {
+//         const { username, email, password } = req.body;
+
+//         if (!username || !email || !password) {
+//             return res.status(400).json({ message: "All fields are required" });
+//         }
+
+//         const emailAlreadyExists = await User.findOne({ email });
+//         if(emailAlreadyExists) {
+//             return res.status(400).json({ message: "Lawyer with this email already exists" });
+//         }
+
+//         const salt = await bcrypt.genSalt(10);
+//         const hashedPassword = await bcrypt.hash(password, salt);
+
+//         const newLawyer = await User.create({
+//             username,
+//             email,
+//             password: hashedPassword,
+//             role: "lawyer" // Force role to lawyer
+//         });
+
+//         res.status(201).json({
+//             message: "Lawyer created successfully",
+//             lawyer: { id: newLawyer._id, username: newLawyer.username, email: newLawyer.email }
+//         });
+//     } catch (error) {
+//         res.status(500).json({ message: "Lawyer creation failed", error: error.message });
+//     }
+// });
+// 3. General Add User Route (For Admin/Clerk)
+route.post("/addUser", protect, authorize("admin", "clerk"), async (req, res) => {
+    try {
+        const { username, email, password, role } = req.body;
+
+        if (!username || !email || !password || !role) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // Security Check: Prevent clerks from creating admins
+        if (req.user.role === "clerk" && role === "admin") {
+            return res.status(403).json({ message: "Unauthorized: Clerks cannot create Admin accounts" });
+        }
+
+        const emailAlreadyExists = await User.findOne({ email });
+        if(emailAlreadyExists) {
+            return res.status(400).json({ message: "User with this email already exists" });
+        }
+
+        // const salt = await bcrypt.genSalt(10);
+        // const hashedPassword = await bcrypt.hash(password, salt);
+
+        const newUser = await User.create({
+            username,
+            email,
+            password: password,
+            role // Now taking the role directly from the request body
+        });
+
+        res.status(201).json({
+            message: "User created successfully",
+            user: { id: newUser._id, username: newUser.username, email: newUser.email, role: newUser.role }
+        });
+    } catch (error) {
+        res.status(500).json({ message: "User creation failed", error: error.message });
+    }
+});
+
+// In your auth/user route file
+route.delete("/:id", protect, authorize("admin"), async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        if (!deletedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+        console.log("Error deleting user", error);
+        res.status(500).json({ message: "Failed to delete user" });
+    }
+});
 export default route

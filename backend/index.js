@@ -8,6 +8,8 @@ import { authorize } from "./middlewares/authorize.middleware.js";
 import caseRoute from "./routes/case.route.js"
 import hearingRoute from "./routes/hearing.route.js"
 import cookieParser from "cookie-parser";
+import documentRoute from "./routes/document.route.js"
+import path from "path"
 dotenv.config()
 const app=express()
 app.use(cors({
@@ -22,6 +24,8 @@ app.use(cookieParser())
 app.use("/api/auth",userRoute)
 app.use("/api/cases",caseRoute)
 app.use("/api/hearing",hearingRoute)
+app.use("/api/documents",documentRoute)
+app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 app.get("/",(req,res)=>{
     res.send("api running")
 })
