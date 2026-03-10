@@ -14,6 +14,7 @@ import AddLawyer from './componentes/AddUser'
 import AllUsers from './componentes/AllUsers'
 import UpdateCase from './componentes/UpdateCase'
 import HearingList from './componentes/HearingList'
+import Judge from './pages/Judge'
 const App=()=>{
   return (
     <BrowserRouter>
@@ -103,7 +104,7 @@ const App=()=>{
       <Route path="/judge" element={
         <ProtectedRoute allowedRoles={["judge"]}>
           {/* You might need to create a simple Judge Layout/Wrapper like we did for Admin */}
-          <Outlet /> 
+          <Judge /> 
         </ProtectedRoute>
       }>
         <Route index element={<Dashboard />} />

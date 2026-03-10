@@ -1,49 +1,76 @@
+
+ /* --- Main Navigation Bar --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  padding: 1rem 2rem;
-  color: white;
-  font-family: sans-serif;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #0f172a; /* Deep, authoritative slate-navy */
+  padding: 1.25rem 2.5rem;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Keeps the navbar at the top when scrolling */
+  top: 0;
+  z-index: 1000;
 }
 
+/* --- Brand Logo / Title --- */
 .brand {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   text-decoration: none;
-  color: white;
+  color: #ffffff;
+  transition: opacity 0.2s ease;
 }
 
+.brand:hover {
+  opacity: 0.9;
+}
+
+/* --- Navigation Links --- */
 .navLinks {
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem; /* Slightly more breathing room between links */
   align-items: center;
 }
 
 .link {
-  color: #e0e0e0;
+  color: #cbd5e1; /* Muted slate for unselected links */
   text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.2s ease;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .link:hover {
-  color: #007bff;
+  color: #ffffff; /* Brightens up beautifully on hover */
+  transform: translateY(-1px); /* Very subtle lift effect */
 }
 
+/* --- Logout Button (Premium "Ghost" Style) --- */
 .logoutBtn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  background-color: transparent;
+  color: #ef4444; /* Soft, modern crimson */
+  border: 1.5px solid #ef4444;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
 }
 
+/* Fills in solid red only when the user hovers over it */
 .logoutBtn:hover {
-  background-color: #c82333;
+  background-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
+}
+
+.logoutBtn:active {
+  transform: scale(0.97);
 }

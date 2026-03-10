@@ -35,7 +35,8 @@ const CaseList = ({ title }) => {
               <h3>Case #{courtCase.caseNumber}: {courtCase.title}</h3>
               <span className={styles.status}>{courtCase.status}</span>
             </div>
-            <p><strong>Judge:</strong> {courtCase.judgeName}</p>
+            {/* <p><strong>Judge:</strong> {courtCase.judgeName}</p> */}
+            <p><strong>Judge:</strong> {courtCase.judgeId ? courtCase.judgeId.username : "Unassigned"}</p>
             <p><strong>Lawyer:</strong> {courtCase.lawyerId ? courtCase.lawyerId.username : "Unassigned"}</p>
             <p>{courtCase.description}</p>
             {/* You can add a Link here to view details/update the case later */}

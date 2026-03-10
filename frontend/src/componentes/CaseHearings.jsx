@@ -16,7 +16,7 @@ const CaseHearings = ({ caseId, userRole }) => {
   // Fetch existing hearings
   const fetchHearings = async () => {
     try {
-      const res = await api.get(`/hearings/${caseId}`);
+      const res = await api.get(`/hearing/${caseId}`);
       setHearings(res.data);
     } catch (error) {
       console.log("Failed to fetch hearings", error);

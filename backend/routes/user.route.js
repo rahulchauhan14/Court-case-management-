@@ -91,7 +91,15 @@ route.get("/lawyers", protect, authorize("admin", "clerk"), async (req, res) => 
         res.status(500).json({ message: "Failed to fetch lawyers", error: error.message });
     }
 });
-
+// GET route to fetch all judges
+route.get("/judges", protect, authorize("admin", "clerk"), async (req, res) => {
+    try {
+        const judges = await User.find({ role: "judge" }).select("-password");
+        res.status(200).json(judges);
+    } catch (error) {
+        res.status(500).json({ message: "Failed to fetch judges" });
+    }
+});
 // 2. Get ALL Users (For Admin's 'All Users' view)
 route.get("/", protect, authorize("admin"), async (req, res) => {
     try {

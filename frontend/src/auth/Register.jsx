@@ -111,6 +111,7 @@ const Register = () => {
             <option value="lawyer">lawyer</option>
             <option value="admin">admin</option>
             <option value="clerk">clerk</option>
+            <option value="judge">judge</option>
         </select>
         <button className={styles.submitBtn} onSubmit={handleRegister}>Register</button>
     </form>

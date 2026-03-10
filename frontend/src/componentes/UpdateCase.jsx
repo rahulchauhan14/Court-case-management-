@@ -1,20 +1,25 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import styles from './Case.module.css'; // Reusing your existing Case styles
+import styles from './Case.module.css'; 
 import CaseHearings from './CaseHearings';
 import CaseDocuments from './CaseDocument';
+
 const UpdateCase = () => {
-  const { id } = useParams(); // Gets the case ID from the URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     status: '',
-    lawyerId: ''
+    lawyerId: '',
+    judgeId: '' // <-- Added judgeId to state
   });
+  
   const [lawyers, setLawyers] = useState([]);
+  const [judges, setJudges] = useState([]); // <-- Added state for judges
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -34,15 +39,19 @@ const UpdateCase = () => {
           title: caseData.title,
           description: caseData.description,
           status: caseData.status,
-          // If lawyerId is populated (an object), extract the _id, otherwise use the string or empty
-          lawyerId: caseData.lawyerId ? (caseData.lawyerId._id || caseData.lawyerId) : ''
+          // Extract _id if populated, otherwise use the raw ID or empty string
+          lawyerId: caseData.lawyerId ? (caseData.lawyerId._id || caseData.lawyerId) : '',
+          judgeId: caseData.judgeId ? (caseData.judgeId._id || caseData.judgeId) : '' // <-- Handle judgeId
         });
 
-        // 3. If Admin/Clerk, fetch the lawyers list for the assignment dropdown
+        // 3. If Admin/Clerk, fetch BOTH lawyers and judges lists for the assignment dropdowns
         if (role === 'admin' || role === 'clerk') {
-          // Note: Adjust this to your actual lawyers endpoint if it's different!
-          const lawyersRes = await api.get('/auth/lawyers'); 
+          const [lawyersRes, judgesRes] = await Promise.all([
+            api.get('/auth/lawyers'),
+            api.get('/auth/judges')
+          ]);
           setLawyers(lawyersRes.data);
+          setJudges(judgesRes.data);
         }
       } catch (error) {
         console.log("Error fetching data", error);
@@ -62,12 +71,17 @@ const UpdateCase = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Send null if lawyerId is empty so the backend unassigns it properly
-      const dataToSend = { ...formData, lawyerId: formData.lawyerId || null };
+      // Send null if IDs are empty strings so the backend unassigns them properly
+      const dataToSend = { 
+        ...formData, 
+        lawyerId: formData.lawyerId || null,
+        judgeId: formData.judgeId || null 
+      };
+      
       await api.put(`/cases/${id}`, dataToSend);
       
       alert('Case updated successfully!');
-      navigate(-1); // Go back to the previous page
+      navigate(-1); 
     } catch (error) {
       alert(error.response?.data?.message || "Failed to update case");
     }
@@ -80,7 +94,7 @@ const UpdateCase = () => {
       <h2 className={styles.heading}>Update Case</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
         
-        {/* Title is only editable by Admin/Clerk. Lawyers see it as read-only */}
+        {/* Title is only editable by Admin/Clerk. Lawyers/Judges see it as read-only */}
         <label className={styles.inputGroup}>Title:
           <input 
             className={styles.input} 
@@ -88,7 +102,7 @@ const UpdateCase = () => {
             name="title" 
             value={formData.title} 
             onChange={handleChange} 
-            disabled={userRole === 'lawyer'} 
+            disabled={userRole === 'lawyer' || userRole === 'judge'} 
             required 
           />
         </label>
@@ -111,25 +125,39 @@ const UpdateCase = () => {
           </select>
         </label>
 
-        {/* Only show Lawyer Assignment to Admins and Clerks */}
+        {/* Only show Assignment dropdowns to Admins and Clerks */}
         {(userRole === 'admin' || userRole === 'clerk') && (
-          <label className={styles.inputGroup}>Assigned Lawyer:
-            <select className={styles.select} name="lawyerId" value={formData.lawyerId} onChange={handleChange}>
-              <option value="">-- Unassigned --</option>
-              {lawyers.map(lawyer => (
-                <option key={lawyer._id} value={lawyer._id}>
-                  {lawyer.username} ({lawyer.email})
-                </option>
-              ))}
-            </select>
-          </label>
+          <>
+            <label className={styles.inputGroup}>Assigned Judge:
+              <select className={styles.select} name="judgeId" value={formData.judgeId} onChange={handleChange}>
+                <option value="">-- Unassigned --</option>
+                {judges.map(judge => (
+                  <option key={judge._id} value={judge._id}>
+                    Hon. {judge.username}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className={styles.inputGroup}>Assigned Lawyer:
+              <select className={styles.select} name="lawyerId" value={formData.lawyerId} onChange={handleChange}>
+                <option value="">-- Unassigned --</option>
+                {lawyers.map(lawyer => (
+                  <option key={lawyer._id} value={lawyer._id}>
+                    {lawyer.username} ({lawyer.email})
+                  </option>
+                ))}
+              </select>
+            </label>
+          </>
         )}
 
         <button type="submit" className={styles.submitBtn}>Save Updates</button>
       </form>
-      {/* Add this right before the final closing </div> in UpdateCase */}
-  <CaseHearings caseId={id} userRole={userRole} />
-  <CaseDocuments caseId={id} />
+
+      {/* Embedded Components for Hearings and Documents */}
+      <CaseHearings caseId={id} userRole={userRole} />
+      <CaseDocuments caseId={id} />
     </div>
   );
 };

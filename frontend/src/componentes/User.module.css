@@ -1,110 +1,173 @@
+
+/* --- Global Container --- */
 .container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  font-family: sans-serif;
+  max-width: 900px; /* Slightly wider to comfortably fit the table */
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1e293b;
 }
 
 .heading {
   margin-top: 0;
-  color: #333;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+  color: #0f172a;
+  font-size: 1.75rem;
+  font-weight: 700;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
-/* Form Styles for Add Lawyer */
+/* --- Form Styles for Add User --- */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
+  margin-bottom: 3rem; /* Extra space if the table is below it */
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  font-weight: bold;
-  color: #555;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #475569;
 }
 
-.input {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.input, .select {
+  padding: 0.85rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
   font-size: 1rem;
+  color: #1e293b;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+}
+
+.input:focus, .select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .submitBtn {
-  padding: 0.75rem;
-  background-color: #007bff;
+  padding: 0.85rem 1.5rem;
+  background-color: #1e3a8a; /* Deep legal navy blue */
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
-  margin-top: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 0.5rem;
+  letter-spacing: 0.5px;
 }
 
 .submitBtn:hover {
-  background-color: #0056b3;
+  background-color: #172a63;
 }
 
-/* Table Styles for All Users */
+.submitBtn:active {
+  transform: scale(0.98);
+}
+
+/* --- Table Styles for All Users --- */
 .tableContainer {
   overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
 .userTable {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  background-color: #ffffff;
 }
 
 .userTable th, .userTable td {
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .userTable th {
-  background-color: #f8f9fa;
-  color: #333;
-  font-weight: bold;
-}
-
-.userTable tr:hover {
-  background-color: #fcfcfc;
-}
-
-.roleBadge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
+  background-color: #f8fafc; /* Very light slate for header */
+  color: #475569;
+  font-weight: 700;
   font-size: 0.85rem;
-  font-weight: bold;
   text-transform: uppercase;
-  background-color: #6c757d;
-  color: white;
+  letter-spacing: 0.5px;
 }
 
+.userTable tr {
+  transition: background-color 0.15s ease;
+}
+
+/* Subtle hover effect for table rows */
+.userTable tr:hover td {
+  background-color: #f1f5f9; 
+}
+
+/* --- Role Badges (Modern Soft Pill Style) --- */
+.roleBadge {
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Specific Role Colors */
+.roleBadge.admin { 
+  background-color: #fee2e2; 
+  color: #991b1b; 
+  border: 1px solid #fecaca;
+}
+.roleBadge.clerk { 
+  background-color: #dcfce7; 
+  color: #166534; 
+  border: 1px solid #bbf7d0;
+}
+.roleBadge.lawyer { 
+  background-color: #e0f2fe; 
+  color: #0369a1; 
+  border: 1px solid #bae6fd;
+}
+.roleBadge.judge { 
+  background-color: #f3e8ff; /* Royal Purple for Judges */
+  color: #6b21a8; 
+  border: 1px solid #e9d5ff;
+}
+
+/* --- Delete Button (Premium Ghost-Red) --- */
 .deleteBtn {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.4rem 0.8rem;
+  background-color: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 0.4rem 0.85rem;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .deleteBtn:hover {
-  background-color: #c82333;
+  background-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
-.roleBadge.admin { background-color: #dc3545; }
-.roleBadge.clerk { background-color: #28a745; }
-.roleBadge.lawyer { background-color: #007bff; }
+
+.deleteBtn:active {
+  transform: scale(0.95);
+}

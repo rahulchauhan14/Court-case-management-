@@ -41,6 +41,7 @@ const HearingList = () => {
               <span className={styles.status}>{hearing.caseId?.status || "Unknown"}</span>
             </div>
             <p><strong>Title:</strong> {hearing.caseId?.title}</p>
+            <p><strong>Judge:</strong> {hearing.caseId?.judgeId ? `Hon. ${hearing.caseId.judgeId.username}` : "Unassigned"}</p>
             <p><strong>Remarks:</strong> {hearing.remarks}</p>
             {hearing.nextHearingDate && (
               <p style={{ color: '#d9534f', fontWeight: 'bold' }}>
