@@ -19,22 +19,64 @@ const route=express.Router()
 //     }
 // })
 
+// route.get("/", protect, authorize("lawyer", "admin", "clerk", "judge"), async (req, res) => {
+//     try {
+//         const query = {};
+        
+//         // Filter for Lawyer
+//         if(req.user.role === "lawyer") {
+//             query.lawyerId = req.user.id;
+//         }
+//         // Filter for Judge
+//         if(req.user.role === "judge") {
+//             query.judgeId = req.user.id; 
+//         }
+
+//         const cases = await Case.find(query)
+//             .populate("lawyerId", "username email")
+//             .populate("judgeId", "username email") // <-- Add this!
+//             .populate("createdBy", "username role")
+//             .sort({createdAt: -1});
+            
+//         res.json(cases);
+//     } catch(error) {
+//         console.log('error during fetching', error);
+//         res.status(500).json({ message: "Failed to fetch cases" });
+//     }
+// });
 route.get("/", protect, authorize("lawyer", "admin", "clerk", "judge"), async (req, res) => {
     try {
         const query = {};
         
-        // Filter for Lawyer
-        if(req.user.role === "lawyer") {
-            query.lawyerId = req.user.id;
+        // 1. Role-Based Security Filters
+        if(req.user.role === "lawyer") query.lawyerId = req.user.id;
+        if(req.user.role === "judge") query.judgeId = req.user.id; 
+
+        // 2. Status Filter (from frontend)
+        if (req.query.status) {
+            query.status = req.query.status;
         }
-        // Filter for Judge
-        if(req.user.role === "judge") {
-            query.judgeId = req.user.id; 
+
+        // 3. Search Bar Filter (Search by Title or Case Number)
+        if (req.query.search) {
+            const searchTerm = req.query.search;
+            const searchNum = parseInt(searchTerm);
+
+            if (!isNaN(searchNum)) {
+                // If they typed a number, search both Title and Case Number
+                query.$or = [
+                    { title: { $regex: searchTerm, $options: "i" } }, // 'i' makes it case-insensitive
+                    { caseNumber: searchNum }
+                ];
+            } else {
+                // If they typed text, just search the Title
+                query.title = { $regex: searchTerm, $options: "i" };
+            }
         }
 
         const cases = await Case.find(query)
             .populate("lawyerId", "username email")
-            .populate("judgeId", "username email") // <-- Add this!
+            .populate("judgeId", "username email")
             .populate("createdBy", "username role")
             .sort({createdAt: -1});
             
@@ -44,7 +86,6 @@ route.get("/", protect, authorize("lawyer", "admin", "clerk", "judge"), async (r
         res.status(500).json({ message: "Failed to fetch cases" });
     }
 });
-
 route.get("/:id", protect, authorize("lawyer", "admin", "clerk","judge"), async (req, res) => {
     try {
         // Added .populate() so the frontend gets the actual names, just like your GET / route

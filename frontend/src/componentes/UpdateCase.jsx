@@ -5,7 +5,8 @@ import api from '../api/axios';
 import styles from './Case.module.css'; 
 import CaseHearings from './CaseHearings';
 import CaseDocuments from './CaseDocument';
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'; // <-- Import it directly like this
 const UpdateCase = () => {
   const { id } = useParams(); 
   const navigate = useNavigate();
@@ -88,7 +89,48 @@ const UpdateCase = () => {
   };
 
   if (loading) return <div className={styles.container}>Loading case details...</div>;
+  const generatePDF = async () => {
+    // 1. Initialize the PDF document
+    const doc = new jsPDF();
 
+    // 2. Add a professional Header
+    doc.setFontSize(22);
+    doc.setTextColor(30, 58, 138); // Premium Navy Blue
+    doc.text("Official Case Report", 14, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 28);
+
+    // 3. Draw a line separator
+    doc.setLineWidth(0.5);
+    doc.setDrawColor(200, 200, 200);
+    doc.line(14, 32, 196, 32);
+
+    // 4. Create the Case Details Table
+    const caseDetails = [
+      ["Case Title", formData.title],
+      ["Status", formData.status.toUpperCase()],
+      ["Description", formData.description],
+      // We check if the dropdowns have a selected value, and find the matching name from the lists
+      ["Assigned Judge", judges.find(j => j._id === formData.judgeId)?.username || "Unassigned"],
+      ["Assigned Lawyer", lawyers.find(l => l._id === formData.lawyerId)?.username || "Unassigned"]
+    ];
+
+    // Change this whole block:
+    autoTable(doc, { // <-- Pass 'doc' as the first argument!
+      startY: 38,
+      head: [["Field", "Details"]],
+      body: caseDetails,
+      theme: 'grid',
+      headStyles: { fillColor: [30, 58, 138] }, 
+      styles: { fontSize: 11, cellPadding: 5 },
+      columnStyles: { 0: { fontStyle: 'bold', cellWidth: 50 } }
+    });
+
+    // 5. Download the PDF!
+    doc.save(`Case_Report_${id}.pdf`);
+  };
   return (
     <div className={styles.container}>
       <h2 className={styles.heading}>Update Case</h2>
@@ -152,7 +194,22 @@ const UpdateCase = () => {
           </>
         )}
 
-        <button type="submit" className={styles.submitBtn}>Save Updates</button>
+        {/* <button type="submit" className={styles.submitBtn}>Save Updates</button> */}
+        {/* Replace your single submit button with this layout */}
+        <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+          <button type="submit" className={styles.submitBtn}>
+            Save Updates
+          </button>
+          
+          <button 
+            type="button" 
+            onClick={generatePDF} 
+            className={styles.submitBtn} 
+            style={{ backgroundColor: '#475569' }} /* Slate color so it doesn't clash with the primary Save button */
+          >
+            📄 Download PDF Report
+          </button>
+        </div>
       </form>
 
       {/* Embedded Components for Hearings and Documents */}
