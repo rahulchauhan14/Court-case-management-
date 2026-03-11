@@ -94,6 +94,7 @@ const Navbar = () => {
             <Link to="/admin/all-cases" className={styles.link}>All Cases</Link>
             <Link to="/admin/all-users" className={styles.link}>All Users</Link>
             <Link to="/admin/add-lawyer" className={styles.link}>Add User</Link>
+            <Link to="/admin/logs" className={styles.link}>System logs</Link>
             {/* <Link to="/admin/case-update" className={styles.link}>Update Case</Link> */}
           </>
         )}
@@ -127,6 +128,7 @@ const Navbar = () => {
             <Link to="/judge" className={styles.link}>Dashboard</Link>
             <Link to="/judge/all-cases" className={styles.link}>All Cases</Link>
             <Link to="/judge/hearings" className={styles.link}>Hearing Schedule</Link>
+            <Link to="/judge/logs" className={styles.link}>Case logs</Link>
           </>
         )}
 

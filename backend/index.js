@@ -9,6 +9,7 @@ import caseRoute from "./routes/case.route.js"
 import hearingRoute from "./routes/hearing.route.js"
 import cookieParser from "cookie-parser";
 import documentRoute from "./routes/document.route.js"
+import logReport from "./routes/log.route.js"
 import path from "path"
 dotenv.config()
 const app=express()
@@ -26,6 +27,7 @@ app.use("/api/cases",caseRoute)
 app.use("/api/hearing",hearingRoute)
 app.use("/api/documents",documentRoute)
 app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
+app.use("/api/logs",logReport)
 app.get("/",(req,res)=>{
     res.send("api running")
 })

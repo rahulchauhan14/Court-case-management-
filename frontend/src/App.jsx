@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import api from "./api/axios"
-import {BrowserRouter,Routes,Route,useNavigate} from "react-router-dom"
+import {BrowserRouter,Routes,Route,useNavigate,Navigate} from "react-router-dom"
 import Lawyer from './pages/Lawyer'
 import Clerk from './pages/Clerk'
 import Admin from './pages/Admin'
@@ -14,6 +14,7 @@ import AddLawyer from './componentes/AddUser'
 import AllUsers from './componentes/AllUsers'
 import UpdateCase from './componentes/UpdateCase'
 import HearingList from './componentes/HearingList'
+import SystemLogs from './componentes/SystemLogs';
 import Judge from './pages/Judge'
 const App=()=>{
   return (
@@ -38,6 +39,7 @@ const App=()=>{
           } />
       </Routes> */}
       <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
 
@@ -61,6 +63,7 @@ const App=()=>{
         <Route path="add-lawyer" element={<AddLawyer />} />
         {/* <Route path="case-update" element={<div>Admin Case Update</div>} /> */}
         <Route path="case-update/:id" element={<UpdateCase />} />
+        <Route path="logs" element={<SystemLogs />} />
       </Route>
 
       {/* --- CLERK ROUTES --- */}
@@ -113,6 +116,7 @@ const App=()=>{
         <Route path="hearings" element={<HearingList />} />
         {/* So they can click "View Case" and see the details/documents */}
         <Route path="case-update/:id" element={<UpdateCase />} /> 
+        <Route path="logs" element={<SystemLogs />} />
       </Route>
     </Routes>
     </BrowserRouter>

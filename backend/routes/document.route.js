@@ -5,7 +5,7 @@ import { protect } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.middleware.js";
 import Case from "../models/case.model.js";
 import Document from "../models/document.model.js";
-
+import Log from "../models/log.model.js";
 const route = express.Router();
 
 // --- MULTER CONFIGURATION ---
@@ -53,7 +53,17 @@ route.post("/:caseId", protect, authorize("admin", "clerk", "lawyer","judge"), u
             fileUrl: `/uploads/${req.file.filename}`, // The path we will use to access the file later
             uploadedBy: req.user.id
         });
+        // Inside your document POST route...
 
+        // --- NEW: Create the Audit Log for the Document Upload ---
+        await Log.create({
+            action: "Uploaded Document",
+            details: `File attached: ${req.body.title}`, // Records the title they typed
+            caseId: req.params.caseId,
+            performedBy: req.user.id
+        });
+
+        //res.status(201).json(newDocument); // Your existing response
         res.status(201).json(newDocument);
     } catch (error) {
         console.log("Error uploading document", error);

@@ -4,6 +4,7 @@ import Case from "../models/case.model.js"
 import express from "express"
 import User from "../models/user.model.js"
 import Hearing from "../models/hearing.model.js"
+import Log from "../models/log.model.js";
 const route=express.Router()
 
 // route.get("/",protect,authorize("lawyer","admin","clerk","judge"),async (req,res)=>{
@@ -113,42 +114,7 @@ route.get("/:id", protect, authorize("lawyer", "admin", "clerk","judge"), async 
 
 route.post("/", protect, authorize("admin", "clerk"), async function(req, res){
     try{
-        // const { caseNumber, title, description, lawyerId, judgeName } = req.body;
-
-        // // 1. Removed lawyerId from the strict required check
-        // if (!caseNumber || !title || !description || !judgeName) {
-        //     return res.status(400).json({
-        //         message: "All fields except lawyer are required",
-        //     });
-        // }
         
-        // const unique = await Case.findOne({ caseNumber });
-        // if(unique) {
-        //     return res.status(400).json({
-        //         message: "Case no already exist",
-        //     });
-        // }
-        
-        // // 2. Only check for the lawyer IF a lawyerId was actually passed
-        // if (lawyerId) {
-        //     // Note: I changed findById to findOne here too, just like in the update route!
-        //     const lawyer = await User.findOne({ _id: lawyerId, role: "lawyer" });
-        //     if(!lawyer) {
-        //         return res.status(400).json({ message: "invalid lawyer" });
-        //     }
-        // }
-        
-        // const newCase = await Case.create({
-        //     caseNumber,
-        //     title,
-        //     description,
-        //     lawyerId: lawyerId || null, // explicitly set to null if undefined
-        //     judgeName,
-        //     createdBy: req.user.id
-        // });
-        
-        // res.status(201).json(newCase);
-        // Inside route.post("/", ...)
 const { caseNumber, title, description, lawyerId, judgeId } = req.body;
 
 if (!caseNumber || !title || !description) {
@@ -186,6 +152,13 @@ const newCase = await Case.create({
     judgeId: judgeId || null, // <-- Save the judgeId
     createdBy: req.user.id
 });
+        // NEW: Log the case creation
+        await Log.create({
+            action: "Created New Case",
+            details: `Case #${caseNumber}: ${title} registered in the system`,
+            caseId: newCase._id,
+            performedBy: req.user.id
+        });
         res.status(201).json(newCase);
     }catch(error){
         console.log("error during court case creation", error);
@@ -241,7 +214,17 @@ if (req.user.role === "admin" || req.user.role === "clerk") {
 
         const updated = await Case.findByIdAndUpdate(req.params.id, update, { new: true, runValidators: true })
             .populate("lawyerId", "username email"); // populate returned data
+        // ... your existing code that updates the case ...
 
+        // NEW: Create an Audit Log
+        await Log.create({
+            action: "Updated Case Details",
+            details: `Updated status to ${req.body.status}`,
+            caseId: req.params.id,
+            performedBy: req.user.id
+        });
+
+        // res.json({ message: "case updated successfully" }); // your existing response
         res.json(updated);
         
     } catch (error) {
