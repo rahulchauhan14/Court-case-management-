@@ -1,24 +1,34 @@
-
 /* --- Global Container --- */
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 3rem 1rem;
+  background-color: var(--bg-color);
+  min-height: calc(100vh - 70px);
+}
+
 .container {
-  max-width: 900px; /* Slightly wider to comfortably fit the table */
-  margin: 3rem auto;
-  padding: 2.5rem;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #1e293b;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 3rem;
+  border: 1px solid var(--border-color);
+  font-family: var(--font-body);
 }
 
 .heading {
   margin-top: 0;
-  color: #0f172a;
+  color: var(--primary-navy);
   font-size: 1.75rem;
   font-weight: 700;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid var(--border-color);
   padding-bottom: 1rem;
   margin-bottom: 2rem;
+  font-family: var(--font-heading);
 }
 
 /* --- Form Styles for Add User --- */
@@ -26,47 +36,53 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-bottom: 3rem; /* Extra space if the table is below it */
+  margin: 0 auto 3rem auto; 
+  max-width: 600px; /* Keep form slightly narrower than full container */
 }
 
 .inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.label {
   font-weight: 600;
-  font-size: 0.95rem;
-  color: #475569;
+  font-size: 0.9rem;
+  color: var(--primary-navy);
+  font-family: var(--font-body);
 }
 
 .input, .select {
   padding: 0.85rem 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   font-size: 1rem;
-  color: #1e293b;
-  background-color: #f8fafc;
+  color: var(--text-dark);
+  background-color: var(--bg-color);
   transition: all 0.2s ease;
+  font-family: var(--font-body);
 }
 
 .input:focus, .select:focus {
   outline: none;
-  border-color: #3b82f6;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--gold-accent);
+  background-color: var(--card-bg);
+  box-shadow: 0 0 0 3px rgba(168, 132, 68, 0.15);
 }
 
 .submitBtn {
-  padding: 0.85rem 1.5rem;
-  background-color: #1e3a8a; /* Deep legal navy blue */
+  padding: 1rem 1.5rem;
+  background-color: var(--primary-navy);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 0.5rem;
-  letter-spacing: 0.5px;
+  margin-top: 1rem;
+  font-family: var(--font-body);
 }
 
 .submitBtn:hover {
@@ -80,39 +96,38 @@
 /* --- Table Styles for All Users --- */
 .tableContainer {
   overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .userTable {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
 }
 
 .userTable th, .userTable td {
   padding: 1.25rem 1rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .userTable th {
-  background-color: #f8fafc; /* Very light slate for header */
-  color: #475569;
+  background-color: var(--bg-color);
+  color: var(--text-light);
   font-weight: 700;
   font-size: 0.85rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
 }
 
 .userTable tr {
   transition: background-color 0.15s ease;
 }
 
-/* Subtle hover effect for table rows */
 .userTable tr:hover td {
-  background-color: #f1f5f9; 
+  background-color: var(--bg-color);
 }
 
 /* --- Role Badges (Modern Soft Pill Style) --- */
@@ -122,7 +137,7 @@
   font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.05em;
   display: inline-block;
   text-align: center;
 }
@@ -144,7 +159,7 @@
   border: 1px solid #bae6fd;
 }
 .roleBadge.judge { 
-  background-color: #f3e8ff; /* Royal Purple for Judges */
+  background-color: #f3e8ff;
   color: #6b21a8; 
   border: 1px solid #e9d5ff;
 }
@@ -152,10 +167,10 @@
 /* --- Delete Button (Premium Ghost-Red) --- */
 .deleteBtn {
   background-color: transparent;
-  color: #ef4444;
-  border: 1px solid #ef4444;
+  color: var(--status-urgent);
+  border: 1px solid var(--status-urgent);
   padding: 0.4rem 0.85rem;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 600;
@@ -163,8 +178,8 @@
 }
 
 .deleteBtn:hover {
-  background-color: #ef4444;
-  color: #ffffff;
+  background-color: var(--status-urgent);
+  color: white;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
 

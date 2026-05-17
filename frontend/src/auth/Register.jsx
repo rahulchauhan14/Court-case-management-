@@ -65,7 +65,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
-import styles from './Register.module.css';
+import styles from './Login.module.css';
 
 const Register = () => {
     const [form, setForm] = useState({
@@ -90,82 +90,96 @@ const Register = () => {
             }
         };
         checkAuth();
-    }, []); // <-- FIX 1: ADDED THIS EMPTY ARRAY! Now it only checks ONCE when the page loads.
+    }, []);
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
             const res = await api.post("/auth/register", form);
-            // Assuming your backend returns the user object with a role
             const { user } = res.data;
             alert("Registration successful!");
             navigate(`/${user.role}`);
         } catch (error) {
-            // FIX 2: Better error message so you know exactly what info was missing/wrong
             const errorMessage = error.response?.data?.message || "Registration failed. Please check your details.";
             alert(errorMessage);
         }
     };
 
     return (
-        <>
-            <form className={styles.form} onSubmit={handleRegister}>
-                <h2 className={styles.heading}>Register Account</h2>
+        <div className={styles.container}>
+            <div className={styles.card}>
+                <div className={styles.brand}>
+                    <div className={styles.logo}>§</div>
+                    <h2 className={styles.heading}>Supreme Court of India</h2>
+                    <p className={styles.subheading}>e-Courts Case Management System</p>
+                </div>
+
+                <h3 style={{textAlign: 'center', marginBottom: '1.5rem', color: 'var(--primary-navy)', fontFamily: 'var(--font-heading)'}}>
+                    Register Account
+                </h3>
+
+                <form className={styles.form} onSubmit={handleRegister}>
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Full Name</label>
+                        <input 
+                            className={styles.input} 
+                            type="text" 
+                            placeholder='Enter your full name'
+                            required
+                            onChange={e => setForm({ ...form, username: e.target.value })} 
+                        />
+                    </div>
+                    
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Email Address</label>
+                        <input 
+                            className={styles.input} 
+                            type="email" 
+                            placeholder='Enter your email address'
+                            required
+                            onChange={e => setForm({ ...form, email: e.target.value })} 
+                        />
+                    </div>
+                    
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Password</label>
+                        <input 
+                            className={styles.input} 
+                            type="password" 
+                            placeholder='Create a password (min. 6 characters)'
+                            required
+                            minLength={6}
+                            onChange={e => setForm({ ...form, password: e.target.value })} 
+                        />
+                    </div>
+                    
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Role</label>
+                        <select 
+                            className={styles.input} 
+                            style={{appearance: 'auto'}}
+                            value={form.role}
+                            onChange={e => setForm({ ...form, role: e.target.value })}
+                        >
+                            <option value="lawyer">Lawyer</option>
+                            <option value="admin">Admin</option>
+                            <option value="clerk">Clerk</option>
+                            <option value="judge">Judge</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" className={styles.submitBtn}>
+                        Register
+                    </button>
+                </form>
                 
-                {/* FIX 3: Added 'required' to prevent submitting empty fields */}
-                <label className={styles.label}>Name:
-                    <input 
-                        className={styles.input} 
-                        type="text" 
-                        placeholder='Full Name'
-                        required
-                        onChange={e => setForm({ ...form, username: e.target.value })} 
-                    />
-                </label>
+                <div className={styles.divider}>Already have an account?</div>
                 
-                <label className={styles.label}>Email:
-                    <input 
-                        className={styles.input} 
-                        type="email" 
-                        placeholder='Email Address'
-                        required
-                        onChange={e => setForm({ ...form, email: e.target.value })} 
-                    />
-                </label>
-                
-                <label className={styles.label}>Password:
-                    <input 
-                        className={styles.input} 
-                        type="password" 
-                        placeholder='Password'
-                        required
-                        onChange={e => setForm({ ...form, password: e.target.value })} 
-                    />
-                </label>
-                
-                <label className={styles.label}>Role:
-                    <select 
-                        className={styles.select} 
-                        value={form.role}
-                        onChange={e => setForm({ ...form, role: e.target.value })}
-                    >
-                        <option value="lawyer">Lawyer</option>
-                        <option value="admin">Admin</option>
-                        <option value="clerk">Clerk</option>
-                        <option value="judge">Judge</option>
-                    </select>
-                </label>
-                
-                {/* FIX 4: Changed onSubmit to type="submit" for the button */}
-                <button type="submit" className={styles.submitBtn}>
-                    Register
+                <button className={styles.navigateBtn} onClick={() => navigate('/login')}>
+                    Secure Login
                 </button>
-            </form>
-            
-            <button className={styles.navigateBtn} onClick={() => navigate('/login')}>
-                Already have an account? Login
-            </button>
-        </>
+            </div>
+        </div>
     );
 };
 

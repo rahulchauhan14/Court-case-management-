@@ -80,8 +80,13 @@ const Navbar = () => {
     //   </div>
     // </nav>
     <nav className={styles.navbar}>
-      <Link to="/" className={styles.brand}>
-        LegalSystem
+      <Link to="/" className={styles.brandContainer}>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Emblem_of_the_Supreme_Court_of_India.svg" alt="Supreme Court Logo" className={styles.logoImage} />
+        <div className={styles.brandText}>
+          <span className={styles.brandHindi}>भारत का सर्वोच्च न्यायालय</span>
+          <span className={styles.brandEnglish}>Supreme Court of India</span>
+          <span className={styles.brandMotto}>|| यतो धर्मस्ततो जय: ||</span>
+        </div>
       </Link>
 
       <div className={styles.navLinks}>

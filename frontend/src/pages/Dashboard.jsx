@@ -181,7 +181,7 @@ const Dashboard = () => {
       {/* 1. Show the beautiful charts & numbers first */}
       <DashboardAnalytics stats={stats} chartData={chartData} />
 
-      <h2 style={{ marginTop: '3rem', color: '#0f172a' }}>Quick Actions</h2>
+      <h2 style={{ marginTop: '3rem', color: '#0f172a', textAlign: 'center', width: '100%' }}>Quick Actions</h2>
 
       {/* 2. Show the navigation action cards below the analytics */}
       {role === "admin" && <AdminDashboard navigate={navigate} />}

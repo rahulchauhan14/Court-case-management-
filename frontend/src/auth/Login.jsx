@@ -1,13 +1,13 @@
-
 import React, { useEffect, useState } from 'react'
 import {useNavigate} from "react-router-dom"
 import api from '../api/axios.js'
-import styles from './Login.module.css' // <-- Imported the styles here
+import styles from './Login.module.css'
 
 const Login = () => {
     const [email,setEmail]=useState("")
     const [password,setPassword]=useState("")
     const navigate=useNavigate()
+    
     useEffect(()=>{
         const checkAuth=async ()=>{
             try {
@@ -21,6 +21,7 @@ const Login = () => {
         }
         checkAuth()
     },[])
+    
     const handleLogin=async(e)=>{
         e.preventDefault()
         try {
@@ -29,23 +30,55 @@ const Login = () => {
             const {user}=res.data
             navigate(`/${user.role}`)
         } catch (error) {
-            alert("login failed")
+            alert("Login failed. Please check your credentials.")
         }
     }
+
   return (
-    <>
-    <form className={styles.form} onSubmit={handleLogin}>
-        <h2 className={styles.heading}>login</h2>
-        <label className={styles.label}>Login:
-            <input className={styles.input} type="email" placeholder='Email'onChange={e=>setEmail(e.target.value)}/>
-        </label>
-        <label className={styles.label}>Password:
-            <input className={styles.input} type="password" placeholder='Password'onChange={e=>setPassword(e.target.value)}/>
-        </label>
-        <button className={styles.loginBtn}>Login</button>
-    </form>
-    <button className={styles.registerBtn} onClick={()=>navigate('/register')}>Register</button>
-    </>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <div className={styles.brand}>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Emblem_of_the_Supreme_Court_of_India.svg" alt="Supreme Court Logo" className={styles.logoImage} />
+          <div className={styles.brandTextContainer}>
+            <span className={styles.brandHindi}>भारत का सर्वोच्च न्यायालय</span>
+            <h2 className={styles.heading}>Supreme Court of India</h2>
+            <span className={styles.brandMotto}>|| यतो धर्मस्ततो जय: ||</span>
+          </div>
+        </div>
+
+        <form className={styles.form} onSubmit={handleLogin}>
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>Email Address</label>
+              <input 
+                className={styles.input} 
+                type="email" 
+                placeholder='Enter your email'
+                required
+                onChange={e=>setEmail(e.target.value)}
+              />
+            </div>
+
+            <div className={styles.inputGroup}>
+              <label className={styles.label}>Password</label>
+              <input 
+                className={styles.input} 
+                type="password" 
+                placeholder='Enter your password'
+                required
+                onChange={e=>setPassword(e.target.value)}
+              />
+            </div>
+            
+            <button type="submit" className={styles.submitBtn}>Secure Login</button>
+        </form>
+
+        <div className={styles.divider}>New User?</div>
+        
+        <button className={styles.navigateBtn} onClick={()=>navigate('/register')}>
+          Register Account
+        </button>
+      </div>
+    </div>
   )
 }
 

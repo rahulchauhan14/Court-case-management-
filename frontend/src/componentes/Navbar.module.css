@@ -1,31 +1,66 @@
-
  /* --- Main Navigation Bar --- */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0f172a; /* Deep, authoritative slate-navy */
+  background-color: var(--card-bg);
   padding: 1.25rem 2.5rem;
-  color: #ffffff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: var(--primary-navy);
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-md);
   position: sticky; /* Keeps the navbar at the top when scrolling */
   top: 0;
   z-index: 1000;
 }
 
 /* --- Brand Logo / Title --- */
-.brand {
-  font-size: 1.5rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+.brandContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   text-decoration: none;
-  color: #ffffff;
   transition: opacity 0.2s ease;
 }
 
-.brand:hover {
+.brandContainer:hover {
   opacity: 0.9;
+}
+
+.logoImage {
+  height: 65px; /* Adjust as needed */
+  width: auto;
+  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); /* Subtle shadow for premium feel */
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.brandHindi {
+  font-family: 'Noto Sans Devanagari', var(--font-body), sans-serif;
+  font-size: 0.9rem;
+  color: var(--gold-accent);
+  line-height: 1.2;
+}
+
+.brandEnglish {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--primary-navy);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.brandMotto {
+  font-family: 'Noto Sans Devanagari', var(--font-body), sans-serif;
+  font-size: 0.8rem;
+  color: var(--gold-accent);
+  line-height: 1.2;
+  margin-top: 2px;
 }
 
 /* --- Navigation Links --- */
@@ -36,7 +71,7 @@
 }
 
 .link {
-  color: #cbd5e1; /* Muted slate for unselected links */
+  color: var(--text-dark);
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -45,17 +80,18 @@
 }
 
 .link:hover {
-  color: #ffffff; /* Brightens up beautifully on hover */
+  color: var(--gold-accent); /* Brightens up beautifully on hover */
   transform: translateY(-1px); /* Very subtle lift effect */
 }
 
 /* --- Logout Button (Premium "Ghost" Style) --- */
 .logoutBtn {
+  font-family: var(--font-body);
   background-color: transparent;
-  color: #ef4444; /* Soft, modern crimson */
-  border: 1.5px solid #ef4444;
+  color: var(--status-urgent);
+  border: 1.5px solid var(--status-urgent);
   padding: 0.5rem 1.25rem;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
@@ -65,7 +101,7 @@
 
 /* Fills in solid red only when the user hovers over it */
 .logoutBtn:hover {
-  background-color: #ef4444;
+  background-color: var(--status-urgent);
   color: #ffffff;
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
   transform: translateY(-1px);

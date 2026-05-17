@@ -1,110 +1,172 @@
-/* --- The Auth/Registration Card --- */
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  padding: 1rem;
+}
+
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary-navy);
+  color: var(--gold-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.heading {
+  font-size: 1.5rem;
+  color: var(--primary-navy);
+  margin-bottom: 0.25rem;
+}
+
+.subheading {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 400px; /* Upgraded from 320px for a premium, breathable feel */
-  margin: 4rem auto 2rem auto;
-  padding: 2.5rem;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px; /* Smooth modern corners */
-  /* Deep, elegant SaaS shadow */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  gap: 0.5rem;
+  gap: 1.25rem;
+  text-align: left;
 }
 
-/* --- Form Header --- */
-.heading {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: #0f172a; /* Deep slate-navy */
-  text-transform: capitalize;
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-/* --- Input Labels --- */
-.label {
+.inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 0.75rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #475569; /* Soft slate gray */
 }
 
-/* --- Inputs & Selects --- */
-.input, .select {
-  padding: 0.85rem 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 1rem;
-  color: #1e293b;
-  background-color: #f8fafc;
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary-navy);
+}
+
+.input {
   width: 100%;
-  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+  background-color: #F8FAFC;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px rgba(168, 132, 68, 0.1);
+  background-color: var(--card-bg);
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  background-color: #F8FAFC;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-/* The signature blue focus ring */
-.input:focus, .select:focus {
+.select:focus {
   outline: none;
-  border-color: #3b82f6;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px rgba(168, 132, 68, 0.1);
 }
 
-/* --- Primary Submit Button --- */
 .submitBtn {
-  padding: 0.85rem;
-  background-color: #1e3a8a; /* Trustworthy legal navy */
+  width: 100%;
+  padding: 0.875rem;
+  background-color: var(--primary-navy);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: var(--radius-md);
   font-weight: 600;
-  letter-spacing: 0.5px;
+  font-size: 1rem;
   cursor: pointer;
-  margin-top: 1.5rem;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition: background-color 0.2s ease;
+  margin-top: 0.5rem;
 }
 
 .submitBtn:hover {
-  background-color: #172a63;
+  background-color: #081629;
 }
 
 .submitBtn:active {
-  transform: scale(0.98); /* Slight click-down effect */
+  transform: translateY(1px);
 }
 
-/* --- Secondary Navigation/Ghost Button --- */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
 .navigateBtn {
-  display: block;
-  margin: 1.5rem auto 0 auto;
-  padding: 0.6rem 1.25rem;
+  width: 100%;
+  padding: 0.875rem;
   background-color: transparent;
-  color: #64748b; /* Muted slate text */
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
+  color: var(--primary-navy);
+  border: 1px solid var(--primary-navy);
+  border-radius: var(--radius-md);
   font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-/* Turns into a soft blue interactive button on hover */
 .navigateBtn:hover {
-  color: #3b82f6;
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-  transform: translateY(-1px);
-}
-
-.navigateBtn:active {
-  transform: scale(0.97);
+  background-color: var(--bg-color);
 }

@@ -1,106 +1,186 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-color);
+  padding: 1rem;
+}
 
- /* --- The Auth Card --- */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logoImage {
+  width: 75px;
+  height: auto;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));
+}
+
+.brandTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.brandHindi {
+  font-family: 'Noto Sans Devanagari', var(--font-body), sans-serif;
+  font-size: 0.95rem;
+  color: var(--gold-accent);
+  line-height: 1.2;
+}
+
+.brandMotto {
+  font-family: 'Noto Sans Devanagari', var(--font-body), sans-serif;
+  font-size: 0.85rem;
+  color: var(--gold-accent);
+  line-height: 1.2;
+  margin-top: 4px;
+}
+
+.heading {
+  font-size: 1.5rem;
+  color: var(--primary-navy);
+  margin-bottom: 0.25rem;
+}
+
+.subheading {
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
 .form {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 400px; /* Slightly wider for a more modern proportion */
-  margin: 6rem auto 2rem auto; /* Pushes it down nicely into the center of the screen */
-  padding: 2.5rem;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px; /* Smoother, more modern corners */
-  /* Deep, elegant SaaS shadow */
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 6px rgba(0, 0, 0, 0.02);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  gap: 1.25rem;
+  text-align: left;
 }
 
-/* --- Card Header --- */
-.heading {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 2rem;
-  color: #0f172a; /* Deep slate-navy */
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-/* --- Form Inputs --- */
-.label {
+.inputGroup {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1.25rem;
+}
+
+.label {
+  font-size: 0.875rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  color: #475569; /* Soft slate gray */
+  color: var(--primary-navy);
 }
 
 .input {
-  padding: 0.85rem 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-size: 1rem;
-  color: #1e293b;
-  background-color: #f8fafc;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-dark);
   transition: all 0.2s ease;
+  background-color: #F8FAFC;
 }
 
-/* The signature blue focus ring */
 .input:focus {
   outline: none;
-  border-color: #3b82f6;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px rgba(168, 132, 68, 0.1);
+  background-color: var(--card-bg);
 }
 
-/* --- Primary Login Button --- */
-.loginBtn {
-  padding: 0.85rem;
-  background-color: #1e3a8a; /* Trustworthy legal navy blue */
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+.select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-dark);
+  background-color: #F8FAFC;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.loginBtn:hover {
-  background-color: #172a63;
-}
-
-.loginBtn:active {
-  transform: scale(0.98); /* Slight click-down effect */
-}
-
-/* --- Secondary Register Button --- */
-.registerBtn {
-  display: block;
-  margin: 1.5rem auto 0 auto;
-  padding: 0.6rem 1.25rem;
-  background-color: transparent;
-  color: #64748b; /* Subtle slate color */
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
   transition: all 0.2s ease;
 }
 
-/* Turns into a soft blue ghost button on hover */
-.registerBtn:hover {
-  color: #3b82f6;
-  border-color: #3b82f6;
-  background-color: #eff6ff;
-  transform: translateY(-1px);
+.select:focus {
+  outline: none;
+  border-color: var(--gold-accent);
+  box-shadow: 0 0 0 3px rgba(168, 132, 68, 0.1);
 }
 
-.registerBtn:active {
-  transform: scale(0.97);
+.submitBtn {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: var(--primary-navy);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.submitBtn:hover {
+  background-color: #081629;
+}
+
+.submitBtn:active {
+  transform: translateY(1px);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: var(--text-light);
+  font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.navigateBtn {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: transparent;
+  color: var(--primary-navy);
+  border: 1px solid var(--primary-navy);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.navigateBtn:hover {
+  background-color: var(--bg-color);
 }
